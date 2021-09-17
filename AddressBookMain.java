@@ -1,8 +1,23 @@
 package com.bridgelabz;
 
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class AddressBookMain {
+
+    private Map<String, Contacts> addressBook = new TreeMap<String, Contacts>();
+
+    public void addContactToAddressBook(Contacts contact) {
+        addressBook.put(contact.getFullName(), contact);
+    }
+
+    public void displayAddressBook() {
+        for (Map.Entry<String, Contacts> contact : addressBook.entrySet()) {
+            System.out.println(contact.getValue());
+        }
+    }
+
     public Contacts createContact() {
         Scanner sc = new Scanner(System.in);
 
@@ -36,9 +51,22 @@ public class AddressBookMain {
     }
 
     public static void main(String[] args) {
-
+        Scanner sc = new Scanner(System.in);
         AddressBookMain addressBookObject = new AddressBookMain();
-        Contacts contact = addressBookObject.createContact();
-        System.out.println("New Contact Created: " + "\n" + contact.toString());
+        System.out.println("Add new Contact(Y/N): ");
+        String select = sc.next();
+        switch (select) {
+            case "Y":
+                Contacts contact = addressBookObject.createContact();
+                addressBookObject.addContactToAddressBook(contact);
+                break;
+            case "N":
+                System.out.println("Cancel to add Contact");
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+        addressBookObject.displayAddressBook();
+        sc.close();
     }
 }
